@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>postyourad</title>
+    <link rel="stylesheet" href="postyourad.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .flex-container {
+            display: flex;
+            gap: 15px;
+        }
+        .box {
+            background: linear-gradient(191deg, rgb(216, 238, 255) 1.35%, rgb(255, 255, 255) 62.01%, rgb(255, 255, 255) 195.73%);
+            border: 2px solid rgb(177, 174, 174);
+            border-radius: 30px;
+            min-width: 710px;
+            height: 650px;
+            overflow-y: auto;
+            padding: 17px 10px 0px 21px;
+            display: none; /* Hide all forms by default */
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .box.active {
+            display: flex; /* Show the active form */
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: block;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: rgb(67, 67, 67);
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-left: 10px;
+            border: 1px solid rgba(0, 0, 0, .1);
+            border-radius: 4px;
+            background: transparent;
+        }
+        .form-group select {
+            height: 40px;
+        }
+        .form-group .mandatoryMarker {
+            color: red;
+        }
+        .mcq-group {
+            margin-bottom: 15px;
+        }
+        .mcq-option {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .mcq-option label {
+            margin-left: 5px;
+        }
+        button[type="button"] {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 118px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            transition: background-color 0.3s ease;
+        }
+        button[type="button"]:hover {
+            background-color: #3e8e41;
+        }
+        #prevBtn {
+            background-color: #f44336;
+        }
+        #prevBtn:hover {
+            background-color: #c62828;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: rgba(217, 217, 217, 0.4);
+            height: 8px;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: rgb(252, 210, 110);
+            width: 0%;
+        }
+        .progress-label {
+            font-size: 16px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #eef2f7;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!--header-->
+    <section id="header">
+        <a href="#"><img src="logo.jpg" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="landingpage.html">Home</a></li>
+                <li><a class="active" href="postyourad.html">Post your AD</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="myprofile.html">My profile</a></li>
+                <li><a href="menu.html"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!--side bar-->
+    <div class="su-cont desktop selfUploadV2 selfUploadV2-desktop desktop-topbar-wrapper css-1o4wjt9">
+        <section class="css-f3w6ha">  
+            <div class="flex-container">
+                <div class="css-u4ug1l">
+                    <div>
+                        <div class="css-ekfu91">
+                            <i class="icon icon-arrow-left css-ale1at"></i>
+                            <a href="landingpage.html">Return to dashboard</a>
+                        </div>
+                        <div class="css-1wsvv7k">Post your property</div>
+                        <div class="css-1au84r2">Sell or rent your property</div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="progress-label" id="progressLabel"></div>
+                        
+                        <div class="css-3wfbg4">
+                            <div class="css-1lzmv4j">
+                                <div class="pill-checkbox css-zhkbv9">
+                                    <i class="pillStateIcon radioFilled"></i>
+                                </div>
+                                <div class="pill-line css-10c1p1k"></div>
+                                <div class="css-fxwwka">
+                                    <div class="css-s2fxx9">Basic Details</div>
+                                    <div class="pill-state css-1uhdbu5">In progress</div>
+                                </div>
+                            </div>
+                            <div class="css-1htmawk">
+                                <div class="css-1onbx3g">
+                                    <div class="pill-checkbox css-zhkbv9">
+                                        <div class="pillStateIcon pendingPill"></div>
+                                    </div>
+                                    <div class="pill-line css-10c1p1k"></div>
+                                </div>
+                                <div class="css-fxwwka">
+                                    <div class="css-s2fxx9">Property Details</div>
+                                    <div class="pill-state css-1uhdbu5">Pending</div>
+                                </div>
+                            </div>
+                            <div class="css-1htmawk">
+                                <div class="css-1onbx3g">
+                                    <div class="pill-checkbox css-zhkbv9">
+                                        <div class="pillStateIcon pendingPill"></div>
+                                    </div>
+                                    <div class="pill-line css-10c1p1k"></div>
+                                </div>
+                                <div class="css-fxwwka">
+                                    <div class="css-s2fxx9">Location Details</div>
+                                    <div class="pill-state css-1uhdbu5">Pending</div>
+                                </div>
+                            </div>
+                            <div class="css-1htmawk">
+                                <div class="css-1onbx3g">
+                                    <div class="pill-checkbox css-zhkbv9">
+                                        <div class="pillStateIcon pendingPill"></div>
+                                    </div>
+                                    <div class="pill-line css-10c1p1k"></div>
+                                </div>
+                                <div class="css-fxwwka">
+                                    <div class="css-s2fxx9">Room Details</div>
+                                    <div class="pill-state css-1uhdbu5">Pending</div>
+                                </div>
+                            </div>
+                            <div class="css-1htmawk">
+                                <div class="css-1onbx3g">
+                                    <div class="pill-checkbox css-zhkbv9">
+                                        <div class="pillStateIcon pendingPill"></div>
+                                    </div>
+                                    <div class="pill-line css-10c1p1k"></div>
+                                </div>
+                                <div class="css-fxwwka">
+                                    <div class="css-s2fxx9">Amenities</div>
+                                    <div class="pill-state css-1uhdbu5">Pending</div>
+                                </div>
+                            </div>
+                            <div class="css-1htmawk">
+                                <div class="css-1onbx3g">
+                                    <div class="pill-checkbox css-zhkbv9">
+                                        <div class="pillStateIcon pendingPill"></div>
+                                    </div>
+                                </div>
+                                <div class="css-fxwwka">
+                                    <div class="css-s2fxx9">Photos & Media</div>
+                                    <div class="pill-state css-1uhdbu5">Pending</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--forms-->
+                <div class="box active" id="basicDetailsForm">
+                    <div>
+                        <h2>Basic Details</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="firstName">First Name <span class="mandatoryMarker">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name <span class="mandatoryMarker">*</span></label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number <span class="mandatoryMarker">*</span></label>
+                                <input type="tel" id="mobile" name="mobile" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category<span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="student" name="category" value="student">
+                                        <label for="student">Student</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="professional" name="category" value="professional">
+                                        <label for="professional">Professional</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="other" name="category" value="other">
+                                        <label for="other">Other</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Sharing<span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="single" name="sharing" value="single">
+                                        <label for="single">Single</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="double" name="sharing" value="double">
+                                        <label for="double">Double</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="triple" name="sharing" value="triple">
+                                        <label for="triple">Triple</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Looking For<span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">Male</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">Female</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">Others</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Current No. of Occupants<span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="occupant1" name="occupants" value="1">
+                                        <label for="occupant1">One</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="occupant2" name="occupants" value="2">
+                                        <label for="occupant2">Two</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="occupant3" name="occupants" value="3">
+                                        <label for="occupant3">Three</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="occupant4" name="occupants" value="4">
+                                        <label for="occupant4">More</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" id="nextBtn">Next</button>
+                    </div>
+                </div>
+                <div class="box" id="propertyDetailsForm">
+                    <div>
+                        <h2>Property Details</h2>
+                        <form>
+                            <div class="form-group">
+                                <label>Property Type <span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="student" name="category" value="student">
+                                        <label for="student">Apartment</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="professional" name="category" value="professional">
+                                        <label for="professional">Independent floor</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="other" name="category" value="other">
+                                        <label for="other">Independent House</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="other" name="category" value="other">
+                                        <label for="other">Villa</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Bedroom <span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="single" name="sharing" value="single">
+                                        <label for="single">One</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="double" name="sharing" value="double">
+                                        <label for="double">Two</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="triple" name="sharing" value="triple">
+                                        <label for="triple">Three</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="triple" name="sharing" value="triple">
+                                        <label for="triple">More</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Bathroom <span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">One</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">Two</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">Three</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">More</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Hallroom <span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="occupant1" name="occupants" value="1">
+                                        <label for="occupant1">None</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="occupant2" name="occupants" value="2">
+                                        <label for="occupant2">One</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="occupant3" name="occupants" value="3">
+                                        <label for="occupant3">Two</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="occupant4" name="occupants" value="4">
+                                        <label for="occupant4">More</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Kitchen Room<span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">One</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">Two</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">Three</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">More</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName">Your Floor Number <span class="mandatoryMarker">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName">Total Number Of floor <span class="mandatoryMarker">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Parking Area<span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">Covered Parking</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">Open Parking</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">No parking</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName">Total Area <span class="mandatoryMarker">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Furnish Type <span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">Fully Furnished</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">Semi Furnished</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">Unfurnished</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" id="prevBtn2">Previous</button>
+                        <button type="button" id="nextBtn3">Next</button>
+                    </div>
+                </div>
+                <div class="box" id="roomDetailsForm">
+                    <div>
+                        <h2>Location Details</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="bedrooms">Name of building/Project/Society<span class="mandatoryMarker">*</span></label>
+                                <input type="text" id="bedrooms" name="bedrooms">
+                            </div>
+                            <div class="form-group">
+                                <h3>Add Property Details</h3>
+                                <div class="form-group">
+                                    <label for="locality">Locality</label>
+                                    <input type="text" id="locality" placeholder="Enter location name">
+                                </div>
+                                <div class="form-group">
+                                    <button onclick="updateMap()">Show on Map</button>
+                                </div>
+                                <div id="map"></div>
+                            </div>
+                        
+                            <script>
+                                var map = L.map('map').setView([22.5726, 88.3639], 12); // Default to Kolkata
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                }).addTo(map);
+                        
+                                var marker;
+                        
+                                function updateMap() {
+                                    var location = document.getElementById("locality").value;
+                        
+                                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${location}`)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.length > 0) {
+                                                var lat = data[0].lat;
+                                                var lon = data[0].lon;
+                                                var placeName = data[0].display_name;
+                        
+                                                if (marker) {
+                                                    map.removeLayer(marker);
+                                                }
+                        
+                                                marker = L.marker([lat, lon]).addTo(map)
+                                                    .bindPopup(placeName)
+                                                    .openPopup();
+                        
+                                                map.setView([lat, lon], 14);
+                                            } else {
+                                                alert("Location not found");
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                        });
+                                }
+                            </script>
+                        </form>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" id="prevBtn3">Previous</button>
+                        <button type="button" id="nextBtn4">Next</button>
+                    </div>
+                </div>
+                <div class="box" id="amenitiesForm">
+                    <div>
+                        <h2>Room Details</h2>
+                        <form>
+                            <div class="form-group">
+                                <label>Master_bedroom <span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">Yes</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Attached_Balcony<span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">Yes</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Bathroom_Type <span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">Attached</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">Independent</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="amenities">Available From</label>
+                                <input type="text" id="amenities" name="amenities">
+                            </div>
+                            <div class="form-group">
+                                <label for="amenities">Rent</label>
+                                <input type="text" id="amenities" name="amenities">
+                            </div>
+                            <div class="form-group">
+                                <label for="amenities">Security Deposite</label>
+                                <input type="text" id="amenities" name="amenities">
+                            </div>
+                            <div class="form-group">
+                                <label for="amenities">Brief about Additional Bills</label>
+                                <input type="text" id="amenities" name="amenities">
+                            </div>
+                            <div class="form-group">
+                                <label>Additionals Benefits <span class="mandatoryMarker">*</span></label>
+                                <div class="mcq-group">
+                                    <div class="mcq-option">
+                                        <input type="radio" id="male" name="lookingFor" value="male">
+                                        <label for="male">Double Bed</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="female" name="lookingFor" value="female">
+                                        <label for="female">Personal cupboard</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">Table & Chair</label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="radio" id="any" name="lookingFor" value="any">
+                                        <label for="any">Shared Cupboard</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" id="prevBtn4">Previous</button>
+                        <button type="button" id="nextBtn5">Next</button>
+                    </div>
+                </div>
+
+
+
+
+
+<!-- add amenities -->
+
+<form>
+            <div class="cccc">
+                <div class="box" id="amenitiesForm">
+                    <div>
+                        <h2>Add amenities</h2>
+                        <form>
+                            <div class="form-group">
+                                <label>Amenities</label>
+                                <div class="mcq-group">
+                                    <div class="tile">
+
+
+<!--
+                                        <input type="checkbox" name="sports" id="sport1">
+                                        <label for="sport1">
+                                            <i class="fas fa-basketball-ball"></i>
+                                            <h6>Basketball</h6>
+                                        </label>
+                                    </div>
+                                    <div class="tile">
+                                        <input type="checkbox" name="sports" id="sport2">
+                                        <label for="sport2">
+                                            <i class="fas fa-swimmer"></i>
+                                            <h6>Swimming</h6>
+                                        </label>
+                                    </div>
+                                    <div class="tile">
+                                        <input type="checkbox" name="sports" id="sport3">
+                                        <label for="sport3">
+                                            <i class="fas fa-quidditch"></i>
+                                            <h6>Quidditch</h6>
+                                        </label>
+                                    </div>
+                                </div>
+
+
+
+-->
+
+
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="student" name="category" value="student">
+                                        <label for="student">
+                                            <i class="fa-solid fa-wifi" alt="Fridge" height="70"></i>  
+                                            <div class=" log">  wifi</div> 
+                                        </label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <label for="professional">
+                                            <i class="fa-solid fa-dumbbell" alt="Fridge" height="70"></i> 
+                                            <div class=" log">  Gym / fitness center</div>  </label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="other" name="category" value="other">
+                                        <label for="other">
+                                            <img src="https://www.newhomesource.com/learn/wp-content/uploads/2020/01/gated-community.jpg" alt="Other" height="70"> Air condition </label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <label for="professional">
+                                            <i class="fa-solid fa-square-parking"alt="Professional" height="70"></i> 
+                                            <div class=" log"> Parking</div>
+                                            </label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <label for="professional">
+                                            <i class="fa-solid fa-bolt" alt="Professional" height="70"></i>
+                                            <div class=" log">24x7 electricity</div>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <label for="professional">
+                                            <i class="fa-solid fa-dog"alt="Professional" height="70"></i>
+                                            <div class=" log"> pet-friendly policies</div> </label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <label for="professional">
+                                            <i class="fa-solid fa-dog"alt="Professional" height="70"></i>  
+                                            <div class=" log"> Cupboard</div> 
+                                        </label>
+                                   
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <i class="fa-solid fa-dog"alt="Professional" height="70"></i>  
+                                            <div class=" log">  Daily cleaning</div>
+                                         </label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <label for="professional"><i class="fa-solid fa-dog"alt="Professional" height="70"></i>  
+                                            <div class=" log">  Reserved parking</div>
+                                         </label>
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <label for="professional"><i class="fa-solid fa-dog"alt="Professional" height="70"></i>  
+                                            <div class=" log"> Swimming Pool</div>
+                                         </label> 
+                                    </div>
+                                    <div class="mcq-option">
+                                        <input type="checkbox" id="professional" name="category" value="professional">
+                                        <label for="professional"><i class="fa-solid fa-dog"alt="Professional" height="70"></i>  
+                                            <div class=" log"> AC</div>
+                                         </label> 
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </form>
+                        
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" id="prevBtn4">Previous</button>
+                        <button type="button" id="nextBtn5">Next</button>
+                    </div>
+                </div>
+               
+                <div class="box" id="photosMediaForm">
+                    <div>
+                        <h2>Photos & Media</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="photos">Upload Photos<span class="mandatoryMarker">*</span></label>
+                                <input type="file" id="photos" name="photos" multiple>
+                            </div>
+                            <div class="form-group">
+                                <label for="videos">Upload Videos</label>
+                                <input type="file" id="videos" name="videos" multiple>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" id="prevBtn5">Previous</button>
+                        <button type="button" id="submitBtn">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const nextBtns = document.querySelectorAll("button[id^='nextBtn']");
+            const prevBtns = document.querySelectorAll("button[id^='prevBtn']");
+            const progressBar = document.getElementById('progressBar');
+            const progressLabel = document.getElementById('progressLabel');
+            const forms = document.querySelectorAll('.box');
+            const totalForms = forms.length;
+
+            let currentIndex = 0;
+
+            function updateProgress() {
+                const percentage = ((currentIndex + 1) / totalForms) * 100;
+                progressBar.style.width = `${percentage}%`;
+                progressLabel.textContent = `Step ${currentIndex + 1} of ${totalForms}`;
+            }
+
+            function showForm(index) {
+                forms.forEach((form, i) => {
+                    form.classList.toggle('active', i === index);
+                });
+                updateProgress();
+            }
+
+            nextBtns.forEach((btn, index) => {
+                btn.addEventListener("click", function() {
+                    if (currentIndex < totalForms - 1) {
+                        currentIndex++;
+                        showForm(currentIndex);
+                    }
+                });
+            });
+
+            prevBtns.forEach((btn, index) => {
+                btn.addEventListener("click", function() {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        showForm(currentIndex);
+                    }
+                });
+            });
+
+            // Initialize the progress on page load
+            showForm(currentIndex);
+        });
+    </script>
+</body>
+</html>

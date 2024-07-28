@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+
+<!--   Header           -->
+
+<section id="header">
+  <a href="index1.html">
+      <img src="logo.png" class="logo" alt="Logo">
+  </a>
+  <div>
+      <ul id="navbar">
+          <li><a class="active" href="#">Home</a></li>
+          <li><a href="postyourad.html">Post your AD</a></li>
+          
+          <li><a href="favourite.html">Favourit</a></li>
+          
+          </a></li>
+      
+
+      <div class="profile-dropdown">
+        <div onclick="toggle()" class="profile-dropdown-btn">
+          <div class="profile-img">
+            <i class="fa-solid fa-circle"></i>
+          </div>
+
+          <span
+            >koushik
+            <i class="fa-solid fa-angle-down"></i>
+          </span>
+        </div>
+
+        <ul class="profile-dropdown-list">
+            <li class="profile-dropdown-list-item">
+                <a href="#" style="color: rgb(0, 50, 65);">
+                  <i class="fa-regular fa-user"></i>
+                  Edit Profile
+                </a>
+              </li>
+
+          <li class="profile-dropdown-list-item">
+            <a href="#"style="color: rgb(0, 50, 65);">
+              <i class="fa-solid fa-sliders"></i>
+              Settings
+            </a>
+          </li>
+
+          <li class="profile-dropdown-list-item">
+            <a href="#"style="color: rgb(0, 50, 65);">
+              <i class="fa-regular fa-circle-question"></i>
+              Help & Support
+            </a>
+          </li>
+          <hr />
+
+          <li class="profile-dropdown-list-item">
+            <a href="#"style="color: rgb(0, 50, 65);">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              Log out
+            </a>
+          </li>
+        </ul>
+      </div>
+    </ul>
+    </nav>
+
+
+    <script>let profileDropdownList = document.querySelector(".profile-dropdown-list");
+        let btn = document.querySelector(".profile-dropdown-btn");
+        
+        let classList = profileDropdownList.classList;
+        
+        const toggle = () => classList.toggle("active");
+        
+        window.addEventListener("click", function (e) {
+          if (!btn.contains(e.target)) classList.remove("active");
+        });
+        </script>
+
+
+
+
+
+  </div>
+</section>
+
+
+
+
+    <section id="hero">
+        <h1></h1>
+    </section>
+    
+    
+
+
+
+
+
+
+
+    
+    
+    
+    
+    <div id="hp-search-form" topmost="true" class="pageComponent     inPageSearchBox__inPageSearchBox" data-label="IN_PAGE_SEARCH">
+        
+        <div id="inPageSearchForm" class="InPageTabs">
+            
+            <div class="tab__tabs">
+
+
+
+                <div 
+                 id="inPageSearchForm_0" 
+                 class="tabChild list_header_semiBold  pageComponent Ng500  " 
+                 data-label="Flat"
+                 data-custominfo="{&quot;payload&quot;:{&quot;basic_info&quot;:{&quot;rescom&quot;:&quot;R&quot;,&quot;preference&quot;:&quot;P&quot;},&quot;location&quot;:{&quot;id&quot;:&quot;26&quot;,&quot;type&quot;:&quot;CITY&quot;}}}">Flat
+                 </div>
+            
+                <div 
+                 id="inPageSearchForm_1"
+                 class="tabChild list_header_semiBold  pageComponent Ng500  "
+                 data-label="Mess" 
+                 data-custominfo="{&quot;payload&quot;:{&quot;basic_info&quot;:{&quot;rescom&quot;:&quot;R&quot;,&quot;preference&quot;:&quot;P&quot;},&quot;location&quot;:{&quot;id&quot;:&quot;26&quot;,&quot;type&quot;:&quot;CITY&quot;}}}">Mess
+                </div>
+            
+                <div
+                 id="inPageSearchForm_2" 
+                 class="tabChild list_header_semiBold  pageComponent Ng500  tab__relativePos" 
+                 data-label="PG / Co-living" 
+                 data-custominfo="{&quot;payload&quot;:{&quot;basic_info&quot;:{&quot;rescom&quot;:&quot;R&quot;,&quot;preference&quot;:&quot;P&quot;},& quot;location&quot;:{&quot;id&quot;:&quot;26&quot;,&quot;type&quot;:&quot;CITY&quot;}}}">PG / Co-living
+               </div>
+
+
+
+                 <div 
+                 id="inPageSearchForm_3" 
+                 class="tabChild list_header_semiBold active pageComponent Ng500  "
+                 data-label="Rental-room"
+                 data-custominfo="{&quot;payload&quot;:{&quot;basic_info&quot;:{&quot;rescom&quot;:&quot;R&quot;,&quot;preference&quot;:&quot;P&quot;},&quot;location&quot;:{&quot;id&quot;:&quot;26&quot;,&quot;type&quot;:&quot;CITY&quot;}}}">Rental-room
+                 </div>
+
+
+            <div id="inPageSearchForm_4" class="tabChild list_header_semiBold  pageComponent Ng500  " data-label="Hostel" 
+            data-custominfo="{&quot;payload&quot;:{&quot;basic_info&quot;:{&quot;rescom&quot;:&quot;R&quot;,&quot;preference&quot;:&quot;P&quot;},&quot;location&quot;:{&quot;id&quot;:&quot;26&quot;,&quot;type&quot;:&quot;CITY&quot;}}}">Hostel
+
+
+            </div>
+           
+        </div>
+            
+
+            <div class="tab__tabsContent">
+                <div class="">
+                    <div class="inPageSearchBox__searchTabWrap">
+                        <div class="inPageSearchBox__inputFilterOptions">
+                            <div class="inPageSearchBox__basicFilter">
+                                <div class="list_header_semiBold Ng500 inPageSearchBox__searchDropdown">
+                                    <div class="">All Residential
+
+                                    </div>
+                                </div>
+                                <div class="inPageSearchBox__searchField">
+                                    <div id="d_landmark_inPageSearchBox" class="pageComponent inPageSearchBox__searchFieldInput" data-label="SEARCH_INPUT" data-custominfo="{}"><i class="iconS_Common_20 icon_search">
+                                        
+                                    </i>
+                                    <div class="component__DeskSfInput"><input type="text" name="keyword" class="component__searchInput" id="keyword2" autocomplete="off" value="">
+                                        <div class="component__suggest">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pageComponent inPageSearchBox__nearMe" data-label="NEAR_ME_SEARCH" 
+                        data-custominfo="{&quot;custom_object&quot;:{&quot;preference&quot;:&quot;P&quot;,&quot;res_com&quot;:&quot;R&quot;,&quot;search_type&quot;:&quot;LS&quot;}}" 
+                        style="cursor: pointer; height: 30px; white-space: nowrap; border-radius: 36px; display: flex; align-items: center; margin-right: 12px;">
+
+                        <img src="https://www.99acres.com/universalapp/img/nearMeV2.png" 
+                        width="40" 
+                        height="40">
+                        </div>
+
+
+                        <div
+                         class="pageComponent undefined" data-label="VOICE_SEARCH_HP_DESKTOP" topmost="true">
+                         <section>
+                            <div class="pageComponent undefined" data-label="VOICE_SEARCH"
+                             style="height: 40px;">
+                                <div class="SpeechToText__voiceIcon" style="height: 40px;">
+
+
+                                    <img src="https://www.99acres.com/universalapp/img/mic.png" style="height: 40px;">
+                                    
+                                </div>
+                            </div>
+                                </section>
+                            </div>
+                            <div class="inPageSearchBox__searchBtn">
+
+
+                                <button id="searchform_search_btn" type="submit" variant="primaryRegular" data-label="SEARCH_SUBMIT" data-custominfo="{&quot;custom_object&quot;:{&quot;availableFor&quot;:[],&quot;sharing&quot;:[],&quot;city&quot;:&quot;&quot;,&quot;bedroom_num&quot;:[],&quot;class&quot;:[],&quot;locality&quot;:[],&quot;brandIds&quot;:[],&quot;keyword&quot;:&quot;&quot;,&quot;preference&quot;:&quot;P&quot;,&quot;area_unit&quot;:&quot;1&quot;,&quot;availability&quot;:[],&quot;res_com&quot;:&quot;R&quot;,&quot;property_type&quot;:&quot;&quot;,&quot;E_TYPE&quot;:&quot;&quot;,&quot;name&quot;:&quot;&quot;},&quot;payload&quot;:{&quot;basic_info&quot;:{&quot;rescom&quot;:&quot;R&quot;,&quot;preference&quot;:&quot;P&quot;}}}" 
+                                class="pageComponent buttons__primaryRegular     undefined " data-sstheme="searchform_search_btn_BUTTON_TOP_LEVEL">
+                                    <span class=" " data-sstheme="searchform_search_btn_BUTTON_SPAN">Search
+
+                                    </span>
+                                </button>
+                                </div>
+                            </div>
+                            <div class="inPageSearchBox__searchFilters false ">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="inPageSearchBox__overlay">
+
+            </div>
+        </div>
+            
+                    </span>
+                    </button>
+                </div>
+            </div>
+            <div class="inPageSearchBox__searchFilters false ">   
+            </div>
+        </div>
+    </div>
+    </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="Categories">
+
+        <div class="PG-coliving">
+       
+              <span class="PG-coliving-text">
+                <a href="roomlist1.html" class="Rental-room-link">
+                  <div class="Rental-room-img"></div>
+                </a>
+             PG/Co-living 
+          </span>
+      </div>
+
+      <div class="Rental-room"> 
+          <span class="rental-room-text">
+            <a href="roomlist1.html" class="Rental-room-link">
+              <div class="Rental-room-img"></div>
+            </a>
+          Rental Room 
+        </span>
+      </div>
+
+      <div class="flat">
+       
+       <span class="flat-text">
+        <a href="roomlist1.html" class="Rental-room-link">
+          <div class="Rental-room-img"></div>
+        </a>
+      Flat
+     </span>
+   </div>
+
+
+   <div class="Rental-room">
+   
+   <span class="rental-room-text">
+    <a href="roomlist1.html" class="Rental-room-link">
+      <div class="Rental-room-img"></div>
+    </a>
+  Mess
+ </span>
+
+
+
+</div>
+        <div class="Hostel">
+         
+          <span class="Hostel-text">
+            <a href="roomlist1.html" class="Rental-room-link">
+              <div class="Rental-room-img"></div>
+            </a>
+            Hostel
+          </span>
+        </div>
+
+        
+
+      
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <footer>
+        <div class="footer-Rental-room">
+          <div class="footer-section quick-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Blog</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-section legal">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-section contact-us">
+            <h4>Contact Us</h4>
+            <p>Email: <a href="">koushik012457@gmail</a></p>
+            <p>Phone: +91-8637506250</p>
+          </div>
+      
+          <div class="footer-section follow-us">
+            <h4>Follow Us</h4>
+            <ul class="social-media">
+              <li><a href="https://www.facebook.com/nalinikoushik.mondal.9/"><i class="fa-brands fa-facebook"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
+              <li><a href="https://www.instagram.com/_koushikmandal/"><i class="fa-brands fa-instagram"></i></a></li>
+              <li><a href="https://www.linkedin.com/in/koushik-mandal-29ba12284/"><i class="fa-brands fa-linkedin"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+      
+
+
+</body>
+</html>
